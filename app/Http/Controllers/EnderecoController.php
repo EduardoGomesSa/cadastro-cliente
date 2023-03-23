@@ -12,7 +12,9 @@ class EnderecoController extends Controller
      */
     public function index()
     {
-        //
+        $enderecos = Endereco::all();
+
+        return response()->json($enderecos);
     }
 
     /**
@@ -20,7 +22,16 @@ class EnderecoController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validated = $request -> validate([
+            'logradouro' => 'required | string',
+            'cidade' => 'required | string',
+            'estado' => 'required | string',
+            'cep' => 'required | string',
+        ]);
+
+        Endereco::create($validated);
+
+        return response()->json(['message' => 'Operação bem sucedida'], 200);
     }
 
     /**

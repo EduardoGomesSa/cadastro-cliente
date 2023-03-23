@@ -11,7 +11,8 @@ class Cliente extends Model
 
     protected $fillable = [
         'nome',
-        'email'
+        'email',
+        'endereco_id',
     ];
 
     public function enderecos(){

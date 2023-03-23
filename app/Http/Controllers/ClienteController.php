@@ -12,7 +12,9 @@ class ClienteController extends Controller
      */
     public function index()
     {
-        //
+        $clientes = Cliente::all();
+
+        return  response()->json($clientes);
     }
 
     /**
@@ -20,7 +22,15 @@ class ClienteController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validated = $request -> validate([
+            'nome' => 'required | string',
+            'email' => 'required | email:rfc,dns',
+            'endereco_id' => 'required',
+        ]);
+
+        Cliente::create($validated);
+
+        return response()->json(['message' => 'Operação bem sucedida'], 200);
     }
 
     /**
