@@ -14,6 +14,7 @@ Route::get('/clientes', [ClienteController::class, 'index']);
 
 Route::post('/enderecos', [EnderecoController::class, 'store']);
 Route::get('/enderecos', [EnderecoController::class, 'index']);
+Route::get('/clientesporendereco/{id}', [EnderecoController::class, 'clientesPorEndereco']);
 
 
 // {

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Cliente;
 use App\Models\Endereco;
 use Illuminate\Http\Request;
 
@@ -32,6 +33,15 @@ class EnderecoController extends Controller
         Endereco::create($validated);
 
         return response()->json(['message' => 'Operação bem sucedida'], 200);
+    }
+
+    public function clientesPorEndereco($enderecoId)
+    {
+        $clientes = Cliente::whereHas('enderecos', function($query) use ($enderecoId) {
+            $query->where('id', $enderecoId);
+        })->get();
+
+        return response()->json($clientes);
     }
 
     /**
