@@ -13,7 +13,12 @@ return new class extends Migration
     {
         Schema::create('clientes', function (Blueprint $table) {
             $table->id();
+            $table->string('nome');
+            $table->string('email');
+            $table->unsignedBigInteger('endereco_id');
             $table->timestamps();
+
+            $table->foreign('endereco_id')->references('id')->on('enderecos');
         });
     }
 
