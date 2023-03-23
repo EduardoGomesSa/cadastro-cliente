@@ -37,9 +37,8 @@ class EnderecoController extends Controller
 
     public function clientesPorEndereco($enderecoId)
     {
-        $clientes = Cliente::whereHas('enderecos', function($query) use ($enderecoId) {
-            $query->where('id', $enderecoId);
-        })->get();
+        $endereco = Endereco::find($enderecoId);
+        $clientes = $endereco->clientes;
 
         return response()->json($clientes);
     }
