@@ -15,6 +15,8 @@ class ClienteController extends Controller
         $clientes = Cliente::all();
 
         return  response()->json($clientes);
+
+
     }
 
     /**
@@ -38,7 +40,11 @@ class ClienteController extends Controller
      */
     public function show(Cliente $cliente)
     {
-        //
+        // {
+        //     "nome":"Eduardo Gomes",
+        //     "email":"eduardo@gmail.com",
+        //     "endereco_id": 1
+        // }
     }
 
     /**

@@ -15,7 +15,7 @@ class Cliente extends Model
         'endereco_id',
     ];
 
-    public function enderecos(){
-        return $this->hasMany(Endereco::class);
+    public function endereco(){
+        return $this->belongsTo(Endereco::class);
     }
 }

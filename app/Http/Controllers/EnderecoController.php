@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Cliente;
 use App\Models\Endereco;
 use Illuminate\Http\Request;
 
@@ -48,7 +47,9 @@ class EnderecoController extends Controller
      */
     public function show(Endereco $endereco)
     {
-        //
+        $enderecos = Endereco::find(1);
+
+        dd($enderecos->cliente);
     }
 
     /**

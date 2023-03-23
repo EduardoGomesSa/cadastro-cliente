@@ -16,7 +16,7 @@ class Endereco extends Model
         'cep',
     ];
 
-    public function cliente(){
-        return $this->belongsTo(Cliente::class);
+    public function clientes(){
+        return $this->hasMany(Cliente::class);
     }
 }

@@ -16,6 +16,8 @@ Route::post('/enderecos', [EnderecoController::class, 'store']);
 Route::get('/enderecos', [EnderecoController::class, 'index']);
 Route::get('/clientesporendereco/{id}', [EnderecoController::class, 'clientesPorEndereco']);
 
+Route::get('/show', [EnderecoController::class, 'show']);
+
 
 // {
 //     "logradouro": "Rua 06, 900",
