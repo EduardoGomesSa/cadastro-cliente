@@ -49,7 +49,7 @@ class EnderecoController extends Controller
     {
         $enderecos = Endereco::find(1);
 
-        dd($enderecos->cliente);
+        dd($enderecos->clientes);
     }
 
     /**

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Cliente;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class ClienteController extends Controller
@@ -24,6 +25,19 @@ class ClienteController extends Controller
      */
     public function store(Request $request)
     {
+        $user = new User();
+        $user -> nome = $request -> nome;
+        $user -> email = $request -> email;
+
+        $validatedAddress = $request -> endereco -> validate([
+            'logradouro' => 'required | string',
+            'cidade' => 'required | string',
+            'estado' => 'required | string',
+            'cep' => 'required | string',
+        ]);
+
+        $user -> endereco() -> create($validatedAddress);
+
         $validated = $request -> validate([
             'nome' => 'required | string',
             'email' => 'required | email:rfc,dns',
@@ -60,6 +74,6 @@ class ClienteController extends Controller
      */
     public function destroy(Cliente $cliente)
     {
-        //
+        $cliente -> delete();
     }
 }
