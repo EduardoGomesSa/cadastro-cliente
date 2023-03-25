@@ -26,23 +26,47 @@ class ClienteController extends Controller
      */
     public function store(Request $request)
     {
-        $validatedAddress = $request -> endereco -> validate([
-            'logradouro' => 'required | string',
-            'cidade' => 'required | string',
-            'estado' => 'required | string',
-            'cep' => 'required | string',
+        $rules = [
+            'nome' => 'required|string|max:255',
+            'email' => 'required|string|email|unique:clientes,email|max:255',
+            'logradouro' => 'required|string|max:255',
+            'cidade' => 'required|string|max:255',
+            'estado' => 'required|string|max:2',
+            'cep' => 'required|string|max:9'
+        ];
+
+        $validatedData = $request->validate($rules);
+
+        $endereco = Endereco::create([
+            'logradouro' => $validatedData['logradouro'],
+            'cidade' => $validatedData['cidade'],
+            'estado' => $validatedData['estado'],
+            'cep' => $validatedData['cep']
         ]);
 
-        $endereco = Endereco::create($validatedAddress);
-
-        $validated = $request -> validate([
-            'nome' => 'required | string',
-            'email' => 'required | email:rfc,dns',
+        Cliente::create([
+            'nome' => $validatedData['nome'],
+            'email' => $validatedData['email'],
+            'endereco_id' => $endereco->id
         ]);
 
-        $validated = ['endereco_id' => $endereco -> id];
+        // $validatedAddress = $request -> endereco -> validate([
+        //     'logradouro' => 'required | string',
+        //     'cidade' => 'required | string',
+        //     'estado' => 'required | string',
+        //     'cep' => 'required | string',
+        // ]);
 
-        Cliente::create($validated);
+        // $endereco = Endereco::create($validatedAddress);
+
+        // $validated = $request -> validate([
+        //     'nome' => 'required | string',
+        //     'email' => 'required | email:rfc,dns',
+        // ]);
+
+        // $validated = ['endereco_id' => $endereco -> id];
+
+        // Cliente::create($validated);
 
         return response()->json(['message' => 'Operação bem sucedida'], 200);
     }
