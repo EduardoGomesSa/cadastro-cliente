@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Cliente;
+use App\Models\Endereco;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -25,10 +26,6 @@ class ClienteController extends Controller
      */
     public function store(Request $request)
     {
-        $user = new User();
-        $user -> nome = $request -> nome;
-        $user -> email = $request -> email;
-
         $validatedAddress = $request -> endereco -> validate([
             'logradouro' => 'required | string',
             'cidade' => 'required | string',
@@ -36,13 +33,14 @@ class ClienteController extends Controller
             'cep' => 'required | string',
         ]);
 
-        $user -> endereco() -> create($validatedAddress);
+        $endereco = Endereco::create($validatedAddress);
 
         $validated = $request -> validate([
             'nome' => 'required | string',
             'email' => 'required | email:rfc,dns',
-            'endereco_id' => 'required',
         ]);
+
+        $validated = ['endereco_id' => $endereco -> id];
 
         Cliente::create($validated);
 
