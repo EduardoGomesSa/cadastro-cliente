@@ -11,6 +11,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::post('/clientes', [ClienteController::class, 'store']);
 Route::get('/clientes', [ClienteController::class, 'index']);
+Route::post('/clientes/{id}', [ClienteController::class, 'update']);
 
 Route::post('/enderecos', [EnderecoController::class, 'store']);
 Route::get('/enderecos', [EnderecoController::class, 'index']);

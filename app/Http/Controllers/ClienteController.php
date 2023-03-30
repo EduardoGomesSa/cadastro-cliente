@@ -50,24 +50,6 @@ class ClienteController extends Controller
             'endereco_id' => $endereco->id
         ]);
 
-        // $validatedAddress = $request -> endereco -> validate([
-        //     'logradouro' => 'required | string',
-        //     'cidade' => 'required | string',
-        //     'estado' => 'required | string',
-        //     'cep' => 'required | string',
-        // ]);
-
-        // $endereco = Endereco::create($validatedAddress);
-
-        // $validated = $request -> validate([
-        //     'nome' => 'required | string',
-        //     'email' => 'required | email:rfc,dns',
-        // ]);
-
-        // $validated = ['endereco_id' => $endereco -> id];
-
-        // Cliente::create($validated);
-
         return response()->json(['message' => 'Operação bem sucedida'], 200);
     }
 
@@ -88,7 +70,14 @@ class ClienteController extends Controller
      */
     public function update(Request $request, Cliente $cliente)
     {
-        //
+        $rules = [
+            'nome' => 'required|string|max:255',
+            'email' => 'required|string|email|unique:clientes,email|max:255',
+            'logradouro' => 'required|string|max:255',
+            'cidade' => 'required|string|max:255',
+            'estado' => 'required|string|max:2',
+            'cep' => 'required|string|max:9'
+        ];
     }
 
     /**
