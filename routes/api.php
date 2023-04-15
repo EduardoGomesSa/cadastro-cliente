@@ -16,7 +16,7 @@ Route::post('/clientes/{id}', [ClienteController::class, 'update']);
 Route::post('/enderecos', [EnderecoController::class, 'store']);
 Route::get('/enderecos', [EnderecoController::class, 'index']);
 Route::get('/clientesporendereco/{id}', [EnderecoController::class, 'clientesPorEndereco']);
-
+Route::post('/enderecos', [EnderecoController::class, 'update']);
 Route::get('/show', [EnderecoController::class, 'show']);
 
 

@@ -57,7 +57,9 @@ class EnderecoController extends Controller
      */
     public function update(Request $request, Endereco $endereco)
     {
-        //
+        $request->validate([
+
+        ]);
     }
 
     /**
