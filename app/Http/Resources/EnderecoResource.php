@@ -17,8 +17,8 @@ class EnderecoResource extends JsonResource
         return [
             'id'=>$this->id,
             'logradouro'=>$this->logradouro,
-            'rua'=>$this->rua,
             'cidade'=>$this->cidade,
+            'estado'=>$this->estado,
             'cep'=>$this->cep
         ];
     }

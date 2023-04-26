@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\EnderecoResource;
 use App\Models\Endereco;
 use Illuminate\Http\Request;
 
@@ -12,9 +13,11 @@ class EnderecoController extends Controller
      */
     public function index()
     {
-        $enderecos = Endereco::all();
+        $resource = EnderecoResource::collection(
+            Endereco::all()
+        );
 
-        return response()->json($enderecos);
+        return $resource->response()->setStatusCode(200);
     }
 
     /**
@@ -29,9 +32,11 @@ class EnderecoController extends Controller
             'cep' => 'required | string',
         ]);
 
-        Endereco::create($validated);
+        $endereco = Endereco::create($validated);
 
-        return response()->json(['message' => 'Operação bem sucedida'], 200);
+        $resource = new EnderecoResource($endereco);
+
+        return $resource->response()->setStatusCode(201);
     }
 
     public function clientesPorEndereco($enderecoId)
