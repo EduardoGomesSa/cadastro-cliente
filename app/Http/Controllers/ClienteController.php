@@ -15,11 +15,13 @@ class ClienteController extends Controller
      */
     public function index()
     {
-        $clientes = Cliente::all();
+        //$clientes = Cliente::all();
 
-        return  response()->json($clientes);
+        $resource = ClienteResource::collection(
+            Cliente::all()
+        );
 
-
+        return  $resource->response()->setStatusCode(200);
     }
 
     /**
