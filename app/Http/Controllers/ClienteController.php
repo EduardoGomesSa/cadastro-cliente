@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\ClienteResource;
 use App\Models\Cliente;
 use App\Models\Endereco;
 use App\Models\User;
@@ -44,13 +45,15 @@ class ClienteController extends Controller
             'cep' => $validatedData['cep']
         ]);
 
-        Cliente::create([
+        $cliente = Cliente::create([
             'nome' => $validatedData['nome'],
             'email' => $validatedData['email'],
             'endereco_id' => $endereco->id
         ]);
 
-        return response()->json(['message' => 'Operação bem sucedida'], 200);
+        $resource = new ClienteResource($cliente);
+
+        return $resource->response()->setStatusCode(201);
     }
 
     /**
@@ -58,11 +61,7 @@ class ClienteController extends Controller
      */
     public function show(Cliente $cliente)
     {
-        // {
-        //     "nome":"Eduardo Gomes",
-        //     "email":"eduardo@gmail.com",
-        //     "endereco_id": 1
-        // }
+
     }
 
     /**
