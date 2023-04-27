@@ -19,7 +19,6 @@ Route::get('/clientesporendereco/{id}', [EnderecoController::class, 'clientesPor
 Route::post('/enderecos', [EnderecoController::class, 'update']);
 Route::get('/show', [EnderecoController::class, 'show']);
 
-
 // {
 //     "logradouro": "Rua 06, 900",
 //     "cidade": "Balsas",

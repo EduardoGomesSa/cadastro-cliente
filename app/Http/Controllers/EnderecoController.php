@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\ClienteResource;
 use App\Http\Resources\EnderecoResource;
 use App\Models\Endereco;
 use Illuminate\Http\Request;
@@ -44,17 +45,21 @@ class EnderecoController extends Controller
         $endereco = Endereco::find($enderecoId);
         $clientes = $endereco->clientes;
 
-        return response()->json($clientes);
+        $resource = ClienteResource::collection($clientes);
+
+        return $resource->response()->setStatusCode(200);
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Endereco $endereco)
+    public function show(Request $request)
     {
-        $enderecos = Endereco::find(1);
+        $endereco = Endereco::find($request->id);
 
-        dd($enderecos->clientes);
+        $resource = new EnderecoResource($endereco);
+
+        return $resource->response()->setStatusCode(200);
     }
 
     /**
