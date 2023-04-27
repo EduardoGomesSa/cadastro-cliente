@@ -14,11 +14,14 @@ return new class extends Migration
         Schema::create('clientes', function (Blueprint $table) {
             $table->id();
             $table->string('nome');
-            $table->string('email');
+            $table->string('data_nascimento');
+            $table->string('cpf')->unique();
             $table->unsignedBigInteger('endereco_id');
+            $table->unsignedBigInteger('contato_id');
             $table->timestamps();
 
             $table->foreign('endereco_id')->references('id')->on('enderecos');
+            $table->foreign('contato_id')->references('id')->on('contatos');
         });
     }
 
