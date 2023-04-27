@@ -18,4 +18,8 @@ class Cliente extends Model
     public function endereco(){
         return $this->belongsTo(Endereco::class);
     }
+
+    public function contato(){
+        return $this->hasOne(Contato::class);
+    }
 }
