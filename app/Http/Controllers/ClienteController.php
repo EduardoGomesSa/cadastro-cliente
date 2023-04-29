@@ -4,8 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Http\Resources\ClienteResource;
 use App\Models\Cliente;
+use App\Models\Contato;
 use App\Models\Endereco;
-use App\Models\User;
 use Illuminate\Http\Request;
 
 class ClienteController extends Controller
@@ -15,8 +15,6 @@ class ClienteController extends Controller
      */
     public function index()
     {
-        //$clientes = Cliente::all();
-
         $resource = ClienteResource::collection(
             Cliente::all()
         );
@@ -31,26 +29,60 @@ class ClienteController extends Controller
     {
         $rules = [
             'nome' => 'required|string|max:255',
-            'email' => 'required|string|email|unique:clientes,email|max:255',
+            'data_nascimento'=>'required|date_format:Y-m-d',
+            'cpf'=>'required|string',
+
             'logradouro' => 'required|string|max:255',
             'cidade' => 'required|string|max:255',
             'estado' => 'required|string|max:2',
-            'cep' => 'required|string|max:9'
+            'cep' => 'required|string|max:9',
+
+            'email' => 'required|string|email|unique:clientes,email|max:255',
+            'telefone'=>'string',
+            'celular'=>'required|string',
         ];
 
         $validatedData = $request->validate($rules);
 
+        $contato = Contato::create([
+            'email'=>$validatedData['email'],
+            'celular'=>$validatedData['celular'],
+            'telefone'=>$validatedData['telefone'],
+        ]);
+
+        /* Endereco as $enderecoExiste */
+        $enderecoExiste = Endereco::where('logradouro', $validatedData['logradouro'])
+            ->where('cidade', $validatedData['cidade'])
+            ->where('estado', $validatedData['estado'])
+            ->where('cep', $validatedData['cep']);
+
+        if($enderecoExiste){
+            $cliente = Cliente::create([
+                'nome'=>$validatedData['nome'],
+                'cpf'=>$validatedData['cpf'],
+                'data_nascimento'=>$validatedData['data_nascimento'],
+                'endereco_id'=>$enderecoExiste->id,
+                'contato_id'=>$contato->id,
+            ]);
+
+            $resource = new ClienteResource($cliente);
+
+            return $resource->response()->setStatusCode(201);
+        }
+
         $endereco = Endereco::create([
-            'logradouro' => $validatedData['logradouro'],
-            'cidade' => $validatedData['cidade'],
-            'estado' => $validatedData['estado'],
-            'cep' => $validatedData['cep']
+            'logradouro'=>$validatedData['logradouro'],
+            'cidade'=>$validatedData['cidade'],
+            'estado'=>$validatedData['estado'],
+            'cep'=>$validatedData['cep']
         ]);
 
         $cliente = Cliente::create([
-            'nome' => $validatedData['nome'],
-            'email' => $validatedData['email'],
-            'endereco_id' => $endereco->id
+            'nome'=>$validatedData['nome'],
+            'cpf'=>$validatedData['cpf'],
+            'data_nascimento'=>$validatedData['data_nascimento'],
+            'endereco_id'=>$endereco->id,
+            'contato_id'=>$contato->id,
         ]);
 
         $resource = new ClienteResource($cliente);
