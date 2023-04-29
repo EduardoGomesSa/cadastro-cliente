@@ -10,6 +10,17 @@ use Illuminate\Http\Request;
 
 class ClienteController extends Controller
 {
+    private $enderecoController;
+
+    /**
+     * Class constructor
+     *
+     * @param EnderecoController $enderecoController dependence injection
+     */
+    public function __construct(EnderecoController $enderecoController)
+    {
+        $this->enderecoController = $enderecoController;
+    }
     /**
      * Display a listing of the resource.
      */
@@ -44,19 +55,19 @@ class ClienteController extends Controller
 
         $validatedData = $request->validate($rules);
 
+        /** @param Endereco $enderecoExiste */
+        $enderecoExiste = Endereco::where('logradouro', $validatedData['logradouro'])
+            ->where('cidade', $validatedData['cidade'])
+            ->where('estado', $validatedData['estado'])
+            ->where('cep', $validatedData['cep']);
+
         $contato = Contato::create([
             'email'=>$validatedData['email'],
             'celular'=>$validatedData['celular'],
             'telefone'=>$validatedData['telefone'],
         ]);
 
-        /* Endereco as $enderecoExiste */
-        $enderecoExiste = Endereco::where('logradouro', $validatedData['logradouro'])
-            ->where('cidade', $validatedData['cidade'])
-            ->where('estado', $validatedData['estado'])
-            ->where('cep', $validatedData['cep']);
-
-        if($enderecoExiste){
+        if($enderecoExiste != null){
             $cliente = Cliente::create([
                 'nome'=>$validatedData['nome'],
                 'cpf'=>$validatedData['cpf'],
@@ -76,6 +87,8 @@ class ClienteController extends Controller
             'estado'=>$validatedData['estado'],
             'cep'=>$validatedData['cep']
         ]);
+
+        //$endereco = json_decode($this->enderecoController->store($request));
 
         $cliente = Cliente::create([
             'nome'=>$validatedData['nome'],
