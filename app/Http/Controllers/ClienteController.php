@@ -48,7 +48,7 @@ class ClienteController extends Controller
             'estado' => 'required|string|max:2',
             'cep' => 'required|string|max:9',
 
-            'email' => 'required|string|email|unique:clientes,email|max:255',
+            'email'=>'required|string|email|unique:clientes,email|max:255',
             'telefone'=>'string',
             'celular'=>'required|string',
         ];
@@ -67,19 +67,19 @@ class ClienteController extends Controller
             'telefone'=>$validatedData['telefone'],
         ]);
 
-        if($enderecoExiste != null){
-            $cliente = Cliente::create([
-                'nome'=>$validatedData['nome'],
-                'cpf'=>$validatedData['cpf'],
-                'data_nascimento'=>$validatedData['data_nascimento'],
-                'endereco_id'=>$enderecoExiste->id,
-                'contato_id'=>$contato->id,
-            ]);
+        // if($enderecoExiste != null){
+        //     $cliente = Cliente::create([
+        //         'nome'=>$validatedData['nome'],
+        //         'cpf'=>$validatedData['cpf'],
+        //         'data_nascimento'=>$validatedData['data_nascimento'],
+        //         'endereco_id'=>$enderecoExiste->id,
+        //         'contato_id'=>$contato->id,
+        //     ]);
 
-            $resource = new ClienteResource($cliente);
+        //     $resource = new ClienteResource($cliente);
 
-            return $resource->response()->setStatusCode(201);
-        }
+        //     return $resource->response()->setStatusCode(201);
+        // }
 
         $endereco = Endereco::create([
             'logradouro'=>$validatedData['logradouro'],
