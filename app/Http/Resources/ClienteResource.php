@@ -17,8 +17,8 @@ class ClienteResource extends JsonResource
         return [
             'id'=>$this->id,
             'nome'=>$this->nome,
-            'email'=>$this->email,
-            'endereco_id'=>$this->endereco_id,
+            'cpf'=>$this->cpf,
+            'data_nascimento'=>$this->endereco_id,
         ];
     }
 }

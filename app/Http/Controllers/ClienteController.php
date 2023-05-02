@@ -39,27 +39,28 @@ class ClienteController extends Controller
     public function store(Request $request)
     {
         $rules = [
-            'nome' => 'required|string|max:255',
+            'nome'=>'required|string|max:255',
             'data_nascimento'=>'required|date_format:Y-m-d',
             'cpf'=>'required|string',
 
-            'logradouro' => 'required|string|max:255',
-            'cidade' => 'required|string|max:255',
-            'estado' => 'required|string|max:2',
-            'cep' => 'required|string|max:9',
+            'logradouro'=>'required|string|max:255',
+            'cidade'=>'required|string|max:255',
+            'estado'=>'required|string|max:2',
+            'cep'=>'required|string|max:9',
 
-            'email'=>'required|string|email|unique:clientes,email|max:255',
+            'email'=>'required|email',
+            //'email'=>'required|string|email|unique:clientes,email|max:255',
             'telefone'=>'string',
             'celular'=>'required|string',
         ];
 
         $validatedData = $request->validate($rules);
 
-        /** @param Endereco $enderecoExiste */
-        $enderecoExiste = Endereco::where('logradouro', $validatedData['logradouro'])
-            ->where('cidade', $validatedData['cidade'])
-            ->where('estado', $validatedData['estado'])
-            ->where('cep', $validatedData['cep']);
+        // /** @param Endereco $enderecoExiste */
+        // $enderecoExiste = Endereco::where('logradouro', $validatedData['logradouro'])
+        //     ->where('cidade', $validatedData['cidade'])
+        //     ->where('estado', $validatedData['estado'])
+        //     ->where('cep', $validatedData['cep']);
 
         $contato = Contato::create([
             'email'=>$validatedData['email'],
@@ -94,8 +95,9 @@ class ClienteController extends Controller
             'nome'=>$validatedData['nome'],
             'cpf'=>$validatedData['cpf'],
             'data_nascimento'=>$validatedData['data_nascimento'],
-            'endereco_id'=>$endereco->id,
             'contato_id'=>$contato->id,
+            'endereco_id'=>$endereco->id,
+
         ]);
 
         $resource = new ClienteResource($cliente);

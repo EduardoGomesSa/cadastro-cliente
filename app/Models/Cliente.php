@@ -13,6 +13,8 @@ class Cliente extends Model
         'nome',
         'data_nascimento',
         'cpf',
+        'endereco_id',
+        'contato_id',
     ];
 
     public function endereco(){
