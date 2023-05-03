@@ -97,7 +97,6 @@ class ClienteController extends Controller
             'data_nascimento'=>$validatedData['data_nascimento'],
             'contato_id'=>$contato->id,
             'endereco_id'=>$endereco->id,
-
         ]);
 
         $resource = new ClienteResource($cliente);
@@ -133,6 +132,6 @@ class ClienteController extends Controller
      */
     public function destroy($id)
     {
-        Cliente::find($id) -> delete();
+        Cliente::find($id)->delete();
     }
 }
