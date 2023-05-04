@@ -10,16 +10,16 @@ use Illuminate\Http\Request;
 
 class ClienteController extends Controller
 {
-    private $enderecoController;
+    private $enderecoModel;
 
     /**
      * Class constructor
      *
      * @param EnderecoController $enderecoController dependence injection
      */
-    public function __construct(EnderecoController $enderecoController)
+    public function __construct(Endereco $endereco)
     {
-        $this->enderecoController = $enderecoController;
+        $this->enderecoModel = $endereco;
     }
     /**
      * Display a listing of the resource.
@@ -57,11 +57,13 @@ class ClienteController extends Controller
         $validatedData = $request->validate($rules);
 
         /** @param Endereco $enderecoExiste */
-        $enderecoExiste = Endereco::where('logradouro', $validatedData['logradouro'])
-            ->where('cidade', $validatedData['cidade'])
-            ->where('estado', $validatedData['estado'])
-            ->where('cep', $validatedData['cep'])
-            ->first();
+        $enderecoExiste = $this->enderecoModel->enderecoExiste($request);
+
+        // $enderecoExiste = Endereco::where('logradouro', $validatedData['logradouro'])
+        //     ->where('cidade', $validatedData['cidade'])
+        //     ->where('estado', $validatedData['estado'])
+        //     ->where('cep', $validatedData['cep'])
+        //     ->first();
 
         $contatoExiste = Contato::orWhere('email', $validatedData['email'])
             ->orWhere('telefone', $validatedData['telefone'])

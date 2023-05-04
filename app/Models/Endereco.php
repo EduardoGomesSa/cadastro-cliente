@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\Request;
 
 class Endereco extends Model
 {
@@ -19,5 +20,13 @@ class Endereco extends Model
 
     public function clientes(){
         return $this->hasMany(Cliente::class);
+    }
+
+    public function enderecoExiste(Request $request){
+        return $this::where('logradouro', $request['logradouro'])
+            ->where('cidade', $request['cidade'])
+            ->where('estado', $request['estado'])
+            ->where('cep', $request['cep'])
+            ->first();
     }
 }
