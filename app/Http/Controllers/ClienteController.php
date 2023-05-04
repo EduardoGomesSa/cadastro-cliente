@@ -12,16 +12,18 @@ class ClienteController extends Controller
 {
     private $enderecoModel;
     private $contatoModel;
+    private $clienteModel;
 
     /**
      * Class constructor
      *
      * @param EnderecoController $enderecoController dependence injection
      */
-    public function __construct(Endereco $endereco, Contato $contato)
+    public function __construct(Endereco $endereco, Contato $contato, Cliente $cliente)
     {
         $this->enderecoModel = $endereco;
         $this->contatoModel = $contato;
+        $this->clienteModel = $cliente;
     }
     /**
      * Display a listing of the resource.
