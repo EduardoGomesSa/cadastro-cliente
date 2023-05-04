@@ -86,13 +86,9 @@ class ClienteController extends Controller
 
         $endereco = $this->enderecoModel->criar($request);
 
-        $cliente = Cliente::create([
-            'nome'=>$validatedData['nome'],
-            'cpf'=>$validatedData['cpf'],
-            'data_nascimento'=>$validatedData['data_nascimento'],
-            'contato_id'=>$contato->id,
-            'endereco_id'=>$endereco->id,
-        ]);
+        $request['contato_id'] = $contato->id;
+        $request['endereco_id'] = $endereco->id;
+        $cliente = $this->clienteModel->criar($request);
 
         $resource = new ClienteResource($cliente);
 
