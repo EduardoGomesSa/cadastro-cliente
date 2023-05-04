@@ -11,15 +11,17 @@ use Illuminate\Http\Request;
 class ClienteController extends Controller
 {
     private $enderecoModel;
+    private $contatoModel;
 
     /**
      * Class constructor
      *
      * @param EnderecoController $enderecoController dependence injection
      */
-    public function __construct(Endereco $endereco)
+    public function __construct(Endereco $endereco, Contato $contato)
     {
         $this->enderecoModel = $endereco;
+        $this->contatoModel = $contato;
     }
     /**
      * Display a listing of the resource.
@@ -42,16 +44,6 @@ class ClienteController extends Controller
             'nome'=>'required|string|max:255',
             'data_nascimento'=>'required|date_format:Y-m-d',
             'cpf'=>'required|string',
-
-            'logradouro'=>'required|string|max:255',
-            'cidade'=>'required|string|max:255',
-            'estado'=>'required|string|max:2',
-            'cep'=>'required|string|max:9',
-
-            'email'=>'required|email|max:255',
-            //'email'=>'required|email|unique:clientes,email|max:255',
-            'telefone'=>'string',
-            'celular'=>'required|string',
         ];
 
         $validatedData = $request->validate($rules);
@@ -59,30 +51,22 @@ class ClienteController extends Controller
         /** @param Endereco $enderecoExiste */
         $enderecoExiste = $this->enderecoModel->enderecoExiste($request);
 
-        // $enderecoExiste = Endereco::where('logradouro', $validatedData['logradouro'])
-        //     ->where('cidade', $validatedData['cidade'])
-        //     ->where('estado', $validatedData['estado'])
-        //     ->where('cep', $validatedData['cep'])
-        //     ->first();
-
-        $contatoExiste = Contato::orWhere('email', $validatedData['email'])
-            ->orWhere('telefone', $validatedData['telefone'])
-            ->orWhere('celular', $validatedData['celular'])
-            ->first();
+        $contatoExiste = $this->contatoModel->contatoExiste($request);
 
         if($contatoExiste){
-            $dadosIguais = $validatedData['email'] === $contatoExiste->email ? 'email: '.$validatedData['email'] : '';
-            $dadosIguais .= $validatedData['telefone'] === $contatoExiste->telefone ? ' telefone: '.$validatedData['telefone'] : '';
-            $dadosIguais .= $validatedData['celular'] === $contatoExiste->celular ? ' celular: '.$validatedData['celular'] : '';
+            $dadosIguais = $validatedData['email'] === $contatoExiste->email ?
+                'email: '.$validatedData['email'] : '';
+            $dadosIguais .= $validatedData['telefone'] === $contatoExiste->telefone ?
+                ' telefone: '.$validatedData['telefone'] : '';
+            $dadosIguais .= $validatedData['celular'] === $contatoExiste->celular ?
+                ' celular: '.$validatedData['celular'] : '';
 
-            return response()->json(['message'=>"Contatos já estão cadastrados - Dados já cadastrados: $dadosIguais"])->setStatusCode(422);
+            return response()
+                ->json(['message'=>"Contatos já estão cadastrados - Dados já cadastrados: $dadosIguais"])
+                ->setStatusCode(422);
         }
 
-        $contato = Contato::create([
-            'email'=>$validatedData['email'],
-            'celular'=>$validatedData['celular'],
-            'telefone'=>$validatedData['telefone'],
-        ]);
+        $contato = $this->contatoModel->criar($request);
 
         if($enderecoExiste != null){
             $cliente = Cliente::create([
@@ -98,14 +82,7 @@ class ClienteController extends Controller
             return $resource->response()->setStatusCode(201);
         }
 
-        $endereco = Endereco::create([
-            'logradouro'=>$validatedData['logradouro'],
-            'cidade'=>$validatedData['cidade'],
-            'estado'=>$validatedData['estado'],
-            'cep'=>$validatedData['cep']
-        ]);
-
-        //$endereco = json_decode($this->enderecoController->store($request));
+        $endereco = $this->enderecoModel->criar($request);
 
         $cliente = Cliente::create([
             'nome'=>$validatedData['nome'],

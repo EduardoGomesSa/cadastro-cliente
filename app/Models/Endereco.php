@@ -29,4 +29,22 @@ class Endereco extends Model
             ->where('cep', $request['cep'])
             ->first();
     }
+
+    public function criar(Request $request){
+        $rules = [
+            'logradouro'=>'required|string|max:255',
+            'cidade'=>'required|string|max:255',
+            'estado'=>'required|string|max:2',
+            'cep'=>'required|string|max:9'
+        ];
+
+        $dadosValidados = $request->validate($rules);
+
+        return $this::create([
+            'logradouro'=>$dadosValidados['logradouro'],
+            'cidade'=>$dadosValidados['cidade'],
+            'estado'=>$dadosValidados['estado'],
+            'cep'=>$dadosValidados['cep']
+        ]);
+    }
 }
