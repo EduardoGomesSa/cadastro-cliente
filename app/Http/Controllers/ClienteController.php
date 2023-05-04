@@ -42,26 +42,15 @@ class ClienteController extends Controller
      */
     public function store(Request $request)
     {
-        $rules = [
-            'nome'=>'required|string|max:255',
-            'data_nascimento'=>'required|date_format:Y-m-d',
-            'cpf'=>'required|string',
-        ];
-
-        $validatedData = $request->validate($rules);
-
-        /** @param Endereco $enderecoExiste */
-        $enderecoExiste = $this->enderecoModel->enderecoExiste($request);
-
         $contatoExiste = $this->contatoModel->contatoExiste($request);
 
         if($contatoExiste){
-            $dadosIguais = $validatedData['email'] === $contatoExiste->email ?
-                'email: '.$validatedData['email'] : '';
-            $dadosIguais .= $validatedData['telefone'] === $contatoExiste->telefone ?
-                ' telefone: '.$validatedData['telefone'] : '';
-            $dadosIguais .= $validatedData['celular'] === $contatoExiste->celular ?
-                ' celular: '.$validatedData['celular'] : '';
+            $dadosIguais = $request['email'] === $contatoExiste->email ?
+                'email: '.$request['email'] : '';
+            $dadosIguais .= $request['telefone'] === $contatoExiste->telefone ?
+                ' telefone: '.$request['telefone'] : '';
+            $dadosIguais .= $request['celular'] === $contatoExiste->celular ?
+                ' celular: '.$request['celular'] : '';
 
             return response()
                 ->json(['message'=>"Contatos já estão cadastrados - Dados já cadastrados: $dadosIguais"])
@@ -69,24 +58,20 @@ class ClienteController extends Controller
         }
 
         $contato = $this->contatoModel->criar($request);
+        $request['contato_id'] = $contato->id;
 
+        $enderecoExiste = $this->enderecoModel->enderecoExiste($request);
         if($enderecoExiste != null){
-            $cliente = Cliente::create([
-                'nome'=>$validatedData['nome'],
-                'cpf'=>$validatedData['cpf'],
-                'data_nascimento'=>$validatedData['data_nascimento'],
-                'endereco_id'=>$enderecoExiste->id,
-                'contato_id'=>$contato->id,
-            ]);
+            $request['endereco_id'] = $enderecoExiste->id;
+
+            $cliente = $this->clienteModel->criar($request);
 
             $resource = new ClienteResource($cliente);
 
             return $resource->response()->setStatusCode(201);
         }
-
         $endereco = $this->enderecoModel->criar($request);
 
-        $request['contato_id'] = $contato->id;
         $request['endereco_id'] = $endereco->id;
         $cliente = $this->clienteModel->criar($request);
 
