@@ -60,7 +60,7 @@ class ClienteController extends Controller
         $enderecoExiste = Endereco::where('logradouro', $validatedData['logradouro'])
             ->where('cidade', $validatedData['cidade'])
             ->where('estado', $validatedData['estado'])
-            ->where('cep', $validatedData['cep']);
+            ->where('cep', $validatedData['cep'])->first();
 
         $contato = Contato::create([
             'email'=>$validatedData['email'],
