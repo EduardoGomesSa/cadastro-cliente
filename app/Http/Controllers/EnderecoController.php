@@ -21,25 +21,6 @@ class EnderecoController extends Controller
         return $resource->response()->setStatusCode(200);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        $validated = $request -> validate([
-            'logradouro' => 'required | string',
-            'cidade' => 'required | string',
-            'estado' => 'required | string',
-            'cep' => 'required | string',
-        ]);
-
-        $endereco = Endereco::create($validated);
-
-        $resource = new EnderecoResource($endereco);
-
-        return $resource->response()->setStatusCode(201);
-    }
-
     public function clientesPorEndereco($enderecoId)
     {
         $endereco = Endereco::find($enderecoId);
@@ -51,32 +32,10 @@ class EnderecoController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     */
-    public function show(Request $request)
-    {
-        $endereco = Endereco::find($request->id);
-
-        $resource = new EnderecoResource($endereco);
-
-        return $resource->response()->setStatusCode(200);
-    }
-
-    /**
      * Update the specified resource in storage.
      */
     public function update(Request $request, Endereco $endereco)
     {
-        $request->validate([
 
-        ]);
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Endereco $endereco)
-    {
-        //
     }
 }
