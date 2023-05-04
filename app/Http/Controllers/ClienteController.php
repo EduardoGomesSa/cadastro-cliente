@@ -60,7 +60,21 @@ class ClienteController extends Controller
         $enderecoExiste = Endereco::where('logradouro', $validatedData['logradouro'])
             ->where('cidade', $validatedData['cidade'])
             ->where('estado', $validatedData['estado'])
-            ->where('cep', $validatedData['cep'])->first();
+            ->where('cep', $validatedData['cep'])
+            ->first();
+
+        $contatoExiste = Contato::orWhere('email', $validatedData['email'])
+            ->orWhere('telefone', $validatedData['telefone'])
+            ->orWhere('celular', $validatedData['celular'])
+            ->first();
+
+        if($contatoExiste){
+            $dadosIguais = $validatedData['email'] === $contatoExiste->email ? 'email: '.$validatedData['email'] : '';
+            $dadosIguais .= $validatedData['telefone'] === $contatoExiste->telefone ? ' telefone: '.$validatedData['telefone'] : '';
+            $dadosIguais .= $validatedData['celular'] === $contatoExiste->celular ? ' celular: '.$validatedData['celular'] : '';
+
+            return response()->json(['message'=>"Contatos já estão cadastrados - Dados já cadastrados: $dadosIguais"])->setStatusCode(422);
+        }
 
         $contato = Contato::create([
             'email'=>$validatedData['email'],
