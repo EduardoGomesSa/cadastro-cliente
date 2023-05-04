@@ -91,7 +91,7 @@ class ClienteController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Cliente $cliente)
+    public function update(Request $request)
     {
         $rules = [
             'nome' => 'required|string|max:255',
