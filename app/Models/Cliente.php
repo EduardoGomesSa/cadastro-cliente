@@ -23,7 +23,7 @@ class Cliente extends Model
     }
 
     public function contato(){
-        return $this->hasOne(Contato::class);
+        return $this->belongsTo(Contato::class);
     }
 
     public function criar(Request $request){

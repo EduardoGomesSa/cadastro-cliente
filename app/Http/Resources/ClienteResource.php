@@ -14,11 +14,13 @@ class ClienteResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        return [
-            'id'=>$this->id,
-            'nome'=>$this->nome,
-            'cpf'=>$this->cpf,
-            'data_nascimento'=>$this->endereco_id,
-        ];
+            return [
+                'id'=>$this->id,
+                'nome'=>$this->nome,
+                'cpf'=>$this->cpf,
+                'data_nascimento'=>$this->data_nascimento,
+                'endereco_id'=> new EnderecoResource($this->endereco),
+                'contato_id'=> new ContatoResource($this->contato),
+            ];
     }
 }
