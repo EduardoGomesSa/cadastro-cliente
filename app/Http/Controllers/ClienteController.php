@@ -53,7 +53,7 @@ class ClienteController extends Controller
                 ' celular: '.$request['celular'] : '';
 
             return response()
-                ->json(['message'=>"Contatos já estão cadastrados - Dados já cadastrados: $dadosIguais"])
+                ->json(['message'=>"Contatos já estão cadastrados - Dados já existentes: $dadosIguais"])
                 ->setStatusCode(422);
         }
 
@@ -110,11 +110,13 @@ class ClienteController extends Controller
     {
         $cliente = Cliente::find($request->id);
 
-        $this->contatoModel->apagar($cliente->contato_id);
+        //$this->contatoModel->apagar($cliente->contato_id);
 
         $clienteApagado = $cliente->delete();
 
         if($clienteApagado)
         return response()->json(['message'=>'cliente apagado com sucesso'])->setStatusCode(200);
+
+        return response()->json(['message'=>'erro ao apagar cliente'], 401);
     }
 }

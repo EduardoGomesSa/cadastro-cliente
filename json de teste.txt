@@ -1,0 +1,12 @@
+{
+    "nome":"Eduardo",
+    "cpf":"13381099467",
+    "data_nascimento":"2002-02-08",
+    "logradouro":"Rua 05",
+    "cidade":"Balsas",
+    "estado":"Ma",
+    "cep":"65800000",
+    "celular":"29984142367",
+    "email":"aeduardo.sa3@gmail.com",
+    "telefone":"19985391"
+}
