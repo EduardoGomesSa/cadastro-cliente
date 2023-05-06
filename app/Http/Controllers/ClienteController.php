@@ -106,8 +106,15 @@ class ClienteController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy($id)
+    public function destroy(Request $request)
     {
-        Cliente::find($id)->delete();
+        $cliente = Cliente::find($request->id);
+
+        $this->contatoModel->apagar($cliente->contato_id);
+
+        $clienteApagado = $cliente->delete();
+
+        if($clienteApagado)
+        return response()->json(['message'=>'cliente apagado com sucesso'])->setStatusCode(200);
     }
 }

@@ -12,16 +12,10 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::post('/clientes', [ClienteController::class, 'store']);
 Route::get('/clientes', [ClienteController::class, 'index']);
 Route::post('/clientes', [ClienteController::class, 'update']);
+Route::delete('/clientes', [ClienteController::class, 'destroy']);
 
 Route::post('/enderecos', [EnderecoController::class, 'store']);
 Route::get('/enderecos', [EnderecoController::class, 'index']);
 Route::get('/clientesporendereco/{id}', [EnderecoController::class, 'clientesPorEndereco']);
 Route::post('/enderecos', [EnderecoController::class, 'update']);
 Route::get('/show', [EnderecoController::class, 'show']);
-
-// {
-//     "logradouro": "Rua 06, 900",
-//     "cidade": "Balsas",
-//     "estado": "MA",
-//     "cep": "65800-000"
-// }
