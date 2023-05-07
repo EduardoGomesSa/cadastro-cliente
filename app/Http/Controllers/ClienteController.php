@@ -108,15 +108,15 @@ class ClienteController extends Controller
      */
     public function destroy(Request $request)
     {
-        $cliente = Cliente::find($request->id);
+        // $cliente = Cliente::find($request->id);
 
-        //$this->contatoModel->apagar($cliente->contato_id);
+        // $this->contatoModel->apagar($cliente->contato_id);
 
-        $clienteApagado = $cliente->delete();
+        // $clienteApagado = $cliente->delete();
 
-        if($clienteApagado)
-        return response()->json(['message'=>'cliente apagado com sucesso'])->setStatusCode(200);
+        // if($clienteApagado)
+        // return response()->json(['message'=>'cliente apagado com sucesso'])->setStatusCode(200);
 
-        return response()->json(['message'=>'erro ao apagar cliente'], 401);
+        // return response()->json(['message'=>'erro ao apagar cliente'], 401);
     }
 }

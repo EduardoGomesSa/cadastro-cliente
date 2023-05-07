@@ -2,12 +2,7 @@
 
 use App\Http\Controllers\ClienteController;
 use App\Http\Controllers\EnderecoController;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
 
 Route::post('/clientes', [ClienteController::class, 'store']);
 Route::get('/clientes', [ClienteController::class, 'index']);
