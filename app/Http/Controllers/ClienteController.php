@@ -34,7 +34,7 @@ class ClienteController extends Controller
             Cliente::all()
         );
 
-        return  $resource->response()->setStatusCode(200);
+        return  $resource->response()->setStatusCode(202);
     }
 
     /**

@@ -1,0 +1,12 @@
+{
+	"nome":"Eduardo",
+	"cpf":"62279088355",
+	"data_nascimento":"2002-01-04",
+	"email":"eduardo@gmail.com",
+	"telefone":"00112233",
+	"celular":"33221100",
+	"logradouro":"Rua 05",
+	"cidade":"Balsas",
+	"estado":"ma",
+	"cep":"65800000"
+}
