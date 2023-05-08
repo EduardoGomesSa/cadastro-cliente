@@ -44,6 +44,10 @@ class Cliente extends Model
         ]);
     }
 
+    public function cpfExiste($cpf){
+        return $this::where('cpf', $cpf)->first();
+    }
+
     public function clienteExiste($id){
         return $this::find($id);
     }

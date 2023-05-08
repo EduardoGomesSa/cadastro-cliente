@@ -42,6 +42,9 @@ class ClienteController extends Controller
      */
     public function store(Request $request)
     {
+        $clienteExiste = $this->clienteModel->cpfExiste($request->cpf);
+        if($clienteExiste) return response()->json(["message"=>"cpf já está cadastrado"])->setStatusCode(409);
+
         $contatoExiste = $this->contatoModel->contatoExiste($request);
 
         if($contatoExiste){
@@ -54,7 +57,7 @@ class ClienteController extends Controller
 
             return response()
                 ->json(['message'=>"Contatos já estão cadastrados - Dados já existentes: $dadosIguais"])
-                ->setStatusCode(422);
+                ->setStatusCode(409);
         }
 
         $contato = $this->contatoModel->criar($request);
