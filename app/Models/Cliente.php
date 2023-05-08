@@ -43,4 +43,20 @@ class Cliente extends Model
             'endereco_id'=>$request['endereco_id'],
         ]);
     }
+
+    public function clienteExiste($id){
+        return $this::find($id);
+    }
+
+    public function atualizar(Request $request){
+        $rules = [
+            'nome' => 'string|max:255',
+            'cpf' => 'string',
+            'data_nascimento'=>'date_format:Y-m-d',
+        ];
+
+        $request->validate($rules);
+
+        return $this::find($request->id)->update($request->all());
+    }
 }
