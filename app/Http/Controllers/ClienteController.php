@@ -94,12 +94,9 @@ class ClienteController extends Controller
     public function update(Request $request)
     {
         $rules = [
-            'nome' => 'required|string|max:255',
-            'email' => 'required|string|email|unique:clientes,email|max:255',
-            'logradouro' => 'required|string|max:255',
-            'cidade' => 'required|string|max:255',
-            'estado' => 'required|string|max:2',
-            'cep' => 'required|string|max:9'
+            'nome' => 'string|max:255',
+            'cpf' => 'string',
+            'data_nascimento'=>'date_format:Y-m-d',
         ];
     }
 
