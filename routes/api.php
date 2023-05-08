@@ -11,7 +11,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::post('/cliente', [ClienteController::class, 'store']);
 Route::get('/cliente', [ClienteController::class, 'index']);
-Route::post('/cliente', [ClienteController::class, 'update']);
+Route::put('/cliente', [ClienteController::class, 'update']);
 Route::delete('/cliente', [ClienteController::class, 'destroy']);
 
 Route::post('/enderecos', [EnderecoController::class, 'store']);
