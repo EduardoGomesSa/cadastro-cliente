@@ -47,4 +47,8 @@ class Endereco extends Model
             'cep'=>$dadosValidados['cep']
         ]);
     }
+
+    public function apagar($id){
+        $this::find($id)->delete();
+    }
 }

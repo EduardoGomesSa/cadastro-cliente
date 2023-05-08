@@ -123,10 +123,17 @@ class ClienteController extends Controller
     public function destroy(Request $request)
     {
         $cliente = Cliente::find($request->id);
+        $idEndereco = $cliente->endereco_id;
 
         $this->contatoModel->apagar($cliente->contato_id);
 
         $clienteApagado = $cliente->delete();
+
+        $AindaExistemClientesNoEndereco = $this->clienteModel->clientesNoEndereco($idEndereco);
+
+        if(empty($AindaExistemClientesNoEndereco)){
+            $this->enderecoModel->apagar($cliente->endereco_id);
+        }
 
         if($clienteApagado)
         return response()->json(['message'=>'cliente apagado com sucesso'])->setStatusCode(200);

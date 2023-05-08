@@ -52,6 +52,10 @@ class Cliente extends Model
         return $this::find($id);
     }
 
+    public function clientesNoEndereco($idEndereco){
+        return $this::where('endereco_id', $idEndereco)->get();
+    }
+
     public function atualizar(Request $request){
         $rules = [
             'nome' => 'string|max:255',
