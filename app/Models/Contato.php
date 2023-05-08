@@ -42,4 +42,8 @@ class Contato extends Model
             'telefone'=>$dadosValidados['telefone'],
         ]);
     }
+
+    public function apagar($id){
+        $this::find($id)->delete();
+    }
 }
