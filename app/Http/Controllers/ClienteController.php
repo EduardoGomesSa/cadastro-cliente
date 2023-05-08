@@ -131,7 +131,7 @@ class ClienteController extends Controller
 
         $AindaExistemClientesNoEndereco = $this->clienteModel->clientesNoEndereco($idEndereco);
 
-        if(empty($AindaExistemClientesNoEndereco)){
+        if(count($AindaExistemClientesNoEndereco)==0){
             $this->enderecoModel->apagar($cliente->endereco_id);
         }
 
