@@ -93,7 +93,17 @@ class ClienteController extends Controller
      */
     public function update(Request $request)
     {
+        $clienteExiste = $this->clienteModel->clienteExiste($request->id);
 
+        if($clienteExiste){
+            $clienteAtualizado = $this->clienteModel->atualizar($request);
+
+            if($clienteAtualizado) return response()->json(["message"=>"cliente atualizado com sucesso"]);
+
+            return response()->json(["message"=>"erro ao atualizar cliente"]);
+        }
+
+        return response()->json(["message"=>"cliente não existe"]);
     }
 
     /**
