@@ -93,11 +93,7 @@ class ClienteController extends Controller
      */
     public function update(Request $request)
     {
-        $rules = [
-            'nome' => 'string|max:255',
-            'cpf' => 'string',
-            'data_nascimento'=>'date_format:Y-m-d',
-        ];
+
     }
 
     /**
