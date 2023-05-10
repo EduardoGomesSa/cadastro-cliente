@@ -1,3 +1,5 @@
+1) criar cliente
+
 {
     "nome":"Eduardo",
     "cpf":"13381099467",
@@ -9,4 +11,13 @@
     "celular":"29984142367",
     "email":"aeduardo.sa3@gmail.com",
     "telefone":"19985391"
+}
+
+2) atualizar cliente
+
+{
+	"id":11,
+	"nome":"nanázita",
+	"data_nascimento":"2005-06-21",
+	"cpf":"74479088366"
 }
