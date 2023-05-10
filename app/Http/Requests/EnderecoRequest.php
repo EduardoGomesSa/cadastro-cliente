@@ -11,7 +11,7 @@ class EnderecoRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,10 @@ class EnderecoRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'logradouro'=>'required|string|max:255',
+            'cidade'=>'required|string|max:255',
+            'estado'=>'required|string|max:2',
+            'cep'=>'required|string|max:9'
         ];
     }
 }

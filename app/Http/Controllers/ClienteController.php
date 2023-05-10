@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ClienteRequest;
+use App\Http\Requests\ContatoRequest;
+use App\Http\Requests\EnderecoRequest;
 use App\Http\Resources\ClienteResource;
 use App\Models\Cliente;
 use App\Models\Contato;
@@ -40,9 +43,9 @@ class ClienteController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(ClienteRequest $request)
     {
-        $clienteExiste = $this->clienteModel->cpfExiste($request->cpf);
+        $clienteExiste = $this->clienteModel->where('cpf', $request->cpf)->first();
         if($clienteExiste) return response()->json(["message"=>"cpf já está cadastrado"])->setStatusCode(409);
 
         $contatoExiste = $this->contatoModel->contatoExiste($request);
@@ -60,20 +63,32 @@ class ClienteController extends Controller
                 ->setStatusCode(409);
         }
 
-        $contato = $this->contatoModel->criar($request);
+        $contatoRequest = new ContatoRequest([
+            'email'=>$request->email,
+            'telefone'=>$request->telefone,
+            'celular'=>$request->celular,
+        ]);
+        $contato = $this->contatoModel->create($contatoRequest->all());
         $request['contato_id'] = $contato->id;
 
         $enderecoExiste = $this->enderecoModel->enderecoExiste($request);
         if($enderecoExiste != null){
             $request['endereco_id'] = $enderecoExiste->id;
 
-            $cliente = $this->clienteModel->criar($request);
+            $cliente = $this->clienteModel->create($request->all());
 
             $resource = new ClienteResource($cliente);
 
             return $resource->response()->setStatusCode(201);
         }
-        $endereco = $this->enderecoModel->criar($request);
+
+        $enderecoRequest = new EnderecoRequest([
+            'logradouro'=>$request->logradouro,
+            'cidade'=>$request->cidade,
+            'estado'=>$request->estado,
+            'cep'=>$request->cep,
+        ]);
+        $endereco = $this->enderecoModel->create($enderecoRequest->all());
 
         $request['endereco_id'] = $endereco->id;
         $cliente = $this->clienteModel->criar($request);
@@ -88,7 +103,7 @@ class ClienteController extends Controller
      */
     public function show(Request $request)
     {
-        $cliente = $this->clienteModel->clienteExiste($request->id);
+        $cliente = $this->clienteModel->find($request->id);
 
         if($cliente){
             $resource = new ClienteResource($cliente);
@@ -102,12 +117,12 @@ class ClienteController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request)
+    public function update(ClienteRequest $request)
     {
-        $clienteExiste = $this->clienteModel->clienteExiste($request->id);
+        $clienteExiste = $this->clienteModel->find($request->id);
 
         if($clienteExiste){
-            $clienteAtualizado = $this->clienteModel->atualizar($request);
+            $clienteAtualizado = $this->clienteModel->update($request->all());
 
             if($clienteAtualizado) return response()->json(["message"=>"cliente atualizado com sucesso"]);
 

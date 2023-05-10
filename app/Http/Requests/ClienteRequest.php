@@ -11,7 +11,7 @@ class ClienteRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,16 @@ class ClienteRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'nome' => 'string|max:255',
+            'cpf' => 'string',
+            'data_nascimento'=>'date_format:Y-m-d',
+            'email'=>'required|email|max:255',
+            'telefone'=>'string',
+            'celular'=>'required|string',
+            'logradouro'=>'required|string|max:255',
+            'cidade'=>'required|string|max:255',
+            'estado'=>'required|string|max:2',
+            'cep'=>'required|string|max:9'
         ];
     }
 }

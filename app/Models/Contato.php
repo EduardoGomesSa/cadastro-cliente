@@ -27,22 +27,6 @@ class Contato extends Model
         ->first();
     }
 
-    public function criar(Request $request){
-        $rules = [
-            'email'=>'required|email|max:255',
-            'telefone'=>'string',
-            'celular'=>'required|string',
-        ];
-
-        $dadosValidados = $request->validate($rules);
-
-        return $this::create([
-            'email'=>$dadosValidados['email'],
-            'celular'=>$dadosValidados['celular'],
-            'telefone'=>$dadosValidados['telefone'],
-        ]);
-    }
-
     public function apagar($id){
         $this::find($id)->delete();
     }
