@@ -100,22 +100,6 @@ class ClienteController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     */
-    public function show(Request $request)
-    {
-        $cliente = $this->clienteModel->find($request->id);
-
-        if($cliente){
-            $resource = new ClienteResource($cliente);
-
-            return $resource->response()->setStatusCode(200);
-        }
-
-        return response()->json(['message'=>'usuario não existe'])->setStatusCode(404);
-    }
-
-    /**
      * Update the specified resource in storage.
      */
     public function update(ClienteUpdateRequest $request)
