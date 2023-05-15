@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ClienteRequest;
+use App\Http\Requests\ClienteUpdateRequest;
 use App\Http\Requests\ContatoRequest;
 use App\Http\Requests\EnderecoRequest;
 use App\Http\Resources\ClienteResource;
@@ -117,12 +118,12 @@ class ClienteController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(ClienteRequest $request)
+    public function update(ClienteUpdateRequest $request)
     {
         $clienteExiste = $this->clienteModel->find($request->id);
 
         if($clienteExiste){
-            $clienteAtualizado = $this->clienteModel->update($request->all());
+            $clienteAtualizado = $clienteExiste->update($request->all());
 
             if($clienteAtualizado) return response()->json(["message"=>"cliente atualizado com sucesso"]);
 
