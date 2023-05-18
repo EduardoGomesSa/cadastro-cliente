@@ -13,6 +13,3 @@ Route::post('/cliente', [ClienteController::class, 'store']);
 Route::get('/cliente', [ClienteController::class, 'index']);
 Route::put('/cliente', [ClienteController::class, 'update']);
 Route::delete('/cliente', [ClienteController::class, 'destroy']);
-
-Route::get('/clientesporendereco/{id}', [EnderecoController::class, 'clientesPorEndereco']);
-Route::post('/enderecos', [EnderecoController::class, 'update']);
