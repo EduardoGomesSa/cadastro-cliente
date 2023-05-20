@@ -18,6 +18,14 @@ class Cliente extends Model
         'contato_id',
     ];
 
+    public function getAll(Request $request){
+        if(!$request->filter){
+            $this::all();
+        }
+
+        return $this::where('name', 'LIKE', $request->filter.'%');
+    }
+
     public function endereco(){
         return $this->belongsTo(Endereco::class);
     }
