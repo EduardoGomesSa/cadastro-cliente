@@ -20,7 +20,7 @@ class Cliente extends Model
 
     public function getAll(Request $request){
         if(!$request->filter){
-            $this::all();
+            return $this::all();
         }
 
         return $this::where('name', 'LIKE', $request->filter.'%');
