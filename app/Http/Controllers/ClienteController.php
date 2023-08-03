@@ -38,7 +38,7 @@ class ClienteController extends Controller
             Cliente::all()
         );
 
-        return  $resource->response()->setStatusCode(202);
+        return  $resource->response()->setStatusCode(200);
     }
 
     /**
@@ -109,12 +109,12 @@ class ClienteController extends Controller
         if($clienteExiste){
             $clienteAtualizado = $clienteExiste->update($request->all());
 
-            if($clienteAtualizado) return response()->json(["message"=>"cliente atualizado com sucesso"]);
+            if($clienteAtualizado) return response()->json(["message"=>"cliente atualizado com sucesso"])->setStatusCode(200);
 
-            return response()->json(["message"=>"erro ao atualizar cliente"]);
+            return response()->json(["message"=>"erro ao atualizar cliente"])->setStatusCode(400);
         }
 
-        return response()->json(["message"=>"cliente não existe"]);
+        return response()->json(["message"=>"cliente não existe"])->setStatusCode(404);
     }
 
     /**
