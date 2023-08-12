@@ -16,12 +16,11 @@ return new class extends Migration
             $table->string('nome');
             $table->date('data_nascimento');
             $table->string('cpf')->unique();
-            $table->unsignedBigInteger('endereco_id');
-            $table->unsignedBigInteger('contato_id');
+            $table->foreignId('endereco_id')
+                ->constrained('enderecos')
+                ->onUpdate('CASCADE')
+                ->onDelete('CASCADE');
             $table->timestamps();
-
-            $table->foreign('endereco_id')->references('id')->on('enderecos');
-            $table->foreign('contato_id')->references('id')->on('contatos')->onDelete('cascade');
         });
     }
 

@@ -16,6 +16,10 @@ return new class extends Migration
             $table->string('celular')->unique();
             $table->string('telefone')->unique();
             $table->string('email')->unique();
+            $table->foreignId('cliente_id')
+                ->constrained('clientes')
+                ->onUpdate('CASCADE')
+                ->onDelete('CASCADE');
             $table->timestamps();
         });
     }
