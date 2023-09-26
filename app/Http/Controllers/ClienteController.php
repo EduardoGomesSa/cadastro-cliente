@@ -64,14 +64,6 @@ class ClienteController extends Controller
                 ->setStatusCode(409);
         }
 
-        $contatoRequest = new ContatoRequest([
-            'email'=>$request->email,
-            'telefone'=>$request->telefone,
-            'celular'=>$request->celular,
-        ]);
-        $contato = $this->contatoModel->create($contatoRequest->all());
-        $request['contato_id'] = $contato->id;
-
         $enderecoExiste = $this->enderecoModel->enderecoExiste($request);
         if($enderecoExiste != null){
             $request['endereco_id'] = $enderecoExiste->id;
@@ -92,7 +84,9 @@ class ClienteController extends Controller
         $endereco = $this->enderecoModel->create($enderecoRequest->all());
 
         $request['endereco_id'] = $endereco->id;
-        $cliente = $this->clienteModel->criar($request);
+        $cliente = $this->clienteModel->create($request->all());
+
+        $cliente->contato->create($request->all());
 
         $resource = new ClienteResource($cliente);
 

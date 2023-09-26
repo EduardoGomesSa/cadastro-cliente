@@ -15,7 +15,6 @@ class Cliente extends Model
         'data_nascimento',
         'cpf',
         'endereco_id',
-        'contato_id',
     ];
 
     public function getAll(Request $request){
